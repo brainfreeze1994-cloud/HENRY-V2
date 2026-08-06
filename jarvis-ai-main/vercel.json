@@ -1,8 +1,10 @@
 {
+  "framework": null,
+  "buildCommand": "rm -rf dist && mkdir -p dist && cp index.html demo.html dist/ && cp -R public dist/public",
+  "outputDirectory": "dist",
   "functions": {
     "api/jarvis.js": { "maxDuration": 30 },
     "api/google-workspace.js": { "maxDuration": 30 },
     "api/speak.js": { "maxDuration": 30 },
     "api/voice-demo.js": { "maxDuration": 30 }
   }
-}
