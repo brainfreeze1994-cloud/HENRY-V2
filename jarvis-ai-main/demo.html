@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05111f">
+  <title>H.E.N.R.Y — Interactive Demo</title>
+  <style>
+    :root { --bg:#05111f;--panel:#091c2f;--line:#1a5274;--cyan:#2bd5ff;--text:#d9f4ff;--muted:#75a8c2;--user:#164c71; }
+    * { box-sizing:border-box } body { margin:0; min-height:100vh; color:var(--text); font:16px/1.5 Inter,Segoe UI,system-ui,sans-serif; background:radial-gradient(circle at 50% -10%,#123e63 0,transparent 38%),var(--bg); }
+    main { max-width:920px; min-height:100vh; margin:auto; padding:28px 20px; display:flex; flex-direction:column; gap:20px; }
+    header { display:flex; align-items:center; justify-content:space-between; border:1px solid var(--line); background:#071827cc; padding:16px 20px; border-radius:16px; }
+    .brand { letter-spacing:.22em; font-weight:700; color:var(--cyan); } .status { color:#73edb6; font-size:.82rem; } .status::before { content:'●'; margin-right:7px; }
+    .hero { text-align:center; padding:16px 8px 0; } h1 { margin:0; font-size:clamp(2rem,7vw,4rem); letter-spacing:.13em; color:#effcff; } .hero p { color:var(--muted); margin:.6rem auto 0; max-width:620px; }
+    .app { display:grid; grid-template-columns:1fr 220px; gap:16px; min-height:440px; } .chat, aside { border:1px solid var(--line); background:linear-gradient(145deg,#0a2033,#071623); border-radius:16px; }
+    .chat { padding:18px; display:flex; flex-direction:column; } #messages { flex:1; display:flex; flex-direction:column; gap:14px; overflow:auto; min-height:300px; padding-right:4px; }
+    .message { max-width:82%; padding:11px 14px; border-radius:14px; background:#0d2b41; border:1px solid #194b69; white-space:pre-wrap; animation:arrive .2s ease-out; } .message.you { align-self:flex-end; background:var(--user); border-color:#287ba7; } .name { display:block; color:var(--cyan); font-size:.7rem; font-weight:700; letter-spacing:.1em; margin-bottom:4px; } .you .name { color:#b9ecff; }
+    @keyframes arrive { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    form { display:flex; gap:9px; margin-top:16px; } input { min-width:0; flex:1; color:var(--text); background:#06131f; border:1px solid var(--line); padding:12px 14px; border-radius:10px; font:inherit; } button { cursor:pointer; border:1px solid #47dfff; border-radius:10px; padding:10px 14px; color:#00131d; background:var(--cyan); font-weight:700; } button:hover { filter:brightness(1.12) } button:focus-visible,input:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+    aside { padding:18px; } aside h2 { margin:0 0 10px; font-size:.85rem; letter-spacing:.12em; color:var(--cyan); } .chips { display:flex; flex-wrap:wrap; gap:8px; } .chip { color:var(--text); background:#0b2a40; border:1px solid #246082; font-size:.8rem; padding:8px 10px; } .chip:hover { background:#16425e; } .note { margin-top:20px; color:var(--muted); font-size:.8rem; }
+    footer { color:var(--muted); text-align:center; font-size:.8rem; } @media(max-width:700px){main{padding:16px}.app{grid-template-columns:1fr}aside{order:-1}.chat{min-height:440px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header><div class="brand">H.E.N.R.Y</div><div class="status">DEMO MODE · READY</div></header>
+    <section class="hero"><h1>YOUR AI COMMAND CENTER</h1><p>A polished, self-contained preview of H.E.N.R.Y’s conversational experience. No account, API key, or setup required.</p></section>
+    <section class="app" aria-label="HENRY demo">
+      <div class="chat"><div id="messages" aria-live="polite"></div><form id="chat-form"><input id="prompt" autocomplete="off" placeholder="Ask HENRY anything…" aria-label="Your message"><button type="submit">Send</button></form></div>
+      <aside><h2>TRY A DEMO</h2><div class="chips"><button class="chip">Plan my day</button><button class="chip">Weather in Dubai</button><button class="chip">Create a pitch outline</button><button class="chip">Motivate me</button><button class="chip">What can you do?</button></div><p class="note">This presentation demo uses local sample responses. The full app connects these controls to AI, voice, live data, vision, and Google Workspace.</p></aside>
+    </section>
+    <footer>H.E.N.R.Y · Hyperintelligence Engine Neural Reasoning Yield</footer>
+  </main>
+  <script>
+    const messages = document.getElementById('messages');
+    const input = document.getElementById('prompt');
+    const samples = {
+      'plan my day': 'Good morning. Here is a focused plan:\n\n1. Choose your top priority and protect 90 minutes for it.\n2. Handle messages in two short windows.\n3. End the day by noting one win and tomorrow’s first task.\n\nCalm, deliberate, effective.',
+      'weather in dubai': '🌤 Dubai demo forecast\n\nClear skies · 34°C\nLight breeze · High UV\n\nFor the full app, live weather is fetched when you ask.',
+      'create a pitch outline': 'Investor pitch outline\n\n1. The problem\n2. Your solution\n3. Market opportunity\n4. Product and traction\n5. Business model\n6. Go-to-market plan\n7. Team and funding ask\n\nThe full app can expand this into a complete deck.',
+      'motivate me': 'You do not need a perfect plan—only a clear next move. Start small, make it real, and let momentum do the persuasive work.',
+      'what can you do?': 'I can help you think, write, plan, research, and create. In the full H.E.N.R.Y app, I can also use voice, analyse images, fetch live information, generate documents, and support your smart-home workflow.'
+    };
+    function add(role, text) { const box=document.createElement('div'); box.className='message '+(role==='You'?'you':''); const name=document.createElement('span'); name.className='name'; name.textContent=role.toUpperCase(); box.append(name,document.createTextNode(text)); messages.appendChild(box); messages.scrollTop=messages.scrollHeight; }
+    function answer(question) { const key=question.trim().toLowerCase(); add('You',question); const response=samples[key] || 'That is a thoughtful prompt. In the full H.E.N.R.Y experience, I would use the configured AI service to give you a tailored answer. For this demo, try one of the suggested prompts on the right.'; setTimeout(()=>add('H.E.N.R.Y',response),260); }
+    document.getElementById('chat-form').addEventListener('submit',e=>{e.preventDefault(); if(input.value.trim()){answer(input.value);input.value='';}});
+    document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>answer(b.textContent)));
+    add('H.E.N.R.Y','Welcome. I am H.E.N.R.Y, your interactive demo assistant. Choose a prompt or ask me a question.');
+  </script>
+</body>
+</html>
