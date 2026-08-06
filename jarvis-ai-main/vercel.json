@@ -1,16 +1,8 @@
 {
-  "version": 2,
-  "framework": null,
-  "buildCommand": "",
-  "outputDirectory": ".",
   "functions": {
     "api/jarvis.js": { "maxDuration": 30 },
     "api/google-workspace.js": { "maxDuration": 30 },
     "api/speak.js": { "maxDuration": 30 },
     "api/voice-demo.js": { "maxDuration": 30 }
-  },
-  "rewrites": [
-    { "source": "/demo", "destination": "/demo.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  }
 }
